@@ -18,13 +18,64 @@ const getAll = async (req,res) => {
 
 const get = async (req,res) => {
 
+    const { id } = req.params;
+
+    try {
+        const job = await Job.findOne({_id : id, createdBy : req.user.userId});
+
+        if(!job){
+            return res.status(404).send("Job not found!");
+        }
+
+        return res.status(200).send(job);
+
+    } catch (error) {
+        return res.status(500).json({"error" : error});
+    }
+
 }
 
 const update = async (req,res) => {
 
+    const { id } = req.params;
+    const { company, position } = req.body;
+
+    try {
+
+        const job = await Job.findByIdAndUpdate({_id : id, createdBy : req.user.userId});
+
+        if(!job){
+            return res.status(404).json({ msg: "Job not found" }); 
+        }
+
+        job.company = company || job.company; 
+        job.position = position || job.position; 
+        
+        await job.save();
+        res.status(200).send(job);
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
 }
 
 const Delete = async (req,res) => {
+
+    const { id } = req.params;
+
+    try {
+        
+        const Deletejob = await Job.findByIdAndDelete({_id : id, createdBy : req.user.userId});
+
+        if (!Deletejob) {
+            return res.status(404).json({ msg: "Job not found" });
+        }
+
+        res.status(200).json({ msg: "Job deleted successfully", job: Deletejob });
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
 
 }
 
