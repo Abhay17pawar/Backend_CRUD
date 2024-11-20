@@ -16,8 +16,8 @@ const Delete = async (req,res) => {
 }
 
 const create = async (req,res) => {
-    console.log(req.user.username);
-    console.log(req.user.userId);
+   
+    
 
 }
 
