@@ -24,4 +24,4 @@ mongoose.connect(MONGO_URI)
     
 })    
 
-app.listen(PORT,() => console.log("sevrer is listening on port 3000..."));
+app.listen(PORT,() => console.log("server is listening on port 3000..."));
